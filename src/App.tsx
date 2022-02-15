@@ -1,7 +1,11 @@
+import Users from './components/Users'
+
+
 function App() {
   return (
-    <div>
-      <p>hello</p>
+    <div className=''>
+    <h1 className='text-6xl font-bold text-center'>Users</h1>
+      <Users/>
     </div>
   );
 }
