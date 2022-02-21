@@ -1,5 +1,8 @@
+import React from 'react'
 import { useState, useEffect } from "react";
-const reactStringReplace = require("react-string-replace");
+
+
+
 
 export type UsersList = {
   first: string;
@@ -15,7 +18,7 @@ function Users() {
   //storing data
   const [data, setData] = useState(false);
   const [searchUser, setSearchUser] = useState("");
-  const [filteredUser, setFilteredUser] = useState([]);
+  
 
   //fetching data
   useEffect(() => {
@@ -69,7 +72,7 @@ function Users() {
         <div style={hoverStyle} className="grid grid-cols-4 gap-2 p-2 mt-20">
           {data?.results
             .filter((val: any) => {
-              if (searchUser === "") {
+              if (searchUser === "" ) {
                 return val;
               } else if (
                 val.name.first.toLowerCase().includes(searchUser.toLowerCase())
@@ -84,8 +87,10 @@ function Users() {
                   .toLowerCase()
                   .includes(searchUser.toLowerCase())
               ) {
-                return val;
-              }
+                return val  
+              } 
+              
+              
             })
             .map((d: any) => 
 
