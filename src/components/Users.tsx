@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from "react";
-
+import fetch from 'cross-fetch';
 
 
 
@@ -25,11 +25,16 @@ function Users() {
     setLoading(true);
 
     const fetchList = async (): Promise<UsersList> => {
+
       const result: any = await fetch("https://randomuser.me/api/?results=20")
+      
         .then((res) => res.json())
+    
         .then((data) => {
+        
           setData(data);
           setLoading(false);
+        
           console.log(data);
         });
 
