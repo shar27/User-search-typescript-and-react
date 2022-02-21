@@ -96,7 +96,7 @@ function Users() {
                   src={d.picture.large}
                 />
                 
-                <h2 style={{backgroundColor: d.name.title === 'Ms' ? 'blue' : 'white' }}>{d.name.title}</h2>
+                <h2 className="font-bold text-4xl" style={{backgroundColor: d.name.title === 'Ms' ? 'blue' : 'white' }}>{d.name.title}</h2>
               
                 <h3 className="font-bold text-3xl font-serif">
                   {" "}
