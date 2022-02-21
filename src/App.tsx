@@ -1,11 +1,16 @@
 import Users from './components/Users'
-
+import Header from './components/Header';
 
 function App() {
+  
+
+ 
   return (
     <div className=''>
-    <h1 className='text-6xl font-bold text-center'>Users</h1>
+    <Header/>
+  
       <Users/>
+
     </div>
   );
 }
