@@ -1,8 +1,6 @@
-import React from 'react'
+import React from "react";
 import { useState, useEffect } from "react";
-import fetch from 'cross-fetch';
-
-
+import fetch from "cross-fetch";
 
 export type UsersList = {
   first: string;
@@ -18,28 +16,26 @@ function Users() {
   //storing data
   const [data, setData] = useState(false);
   const [searchUser, setSearchUser] = useState("");
+  const [isProfile, setIsProfile] = useState(false);
+
   
+  const fetchList = async (): Promise<UsersList> => {
+    const result: any = await fetch("https://randomuser.me/api/?results=20")
+      .then((res) => res.json())
+
+      .then((data) => {
+        setData(data);
+        setLoading(false);
+      });
+
+    return result;
+  };
 
   //fetching data
   useEffect(() => {
     setLoading(true);
 
-    const fetchList = async (): Promise<UsersList> => {
-
-      const result: any = await fetch("https://randomuser.me/api/?results=20")
-      
-        .then((res) => res.json())
     
-        .then((data) => {
-        
-          setData(data);
-          setLoading(false);
-        
-          console.log(data);
-        });
-
-      return result;
-    };
     fetchList();
   }, []);
 
@@ -51,9 +47,6 @@ function Users() {
   const getUser = (e: any) => {
     setSearchUser(e.target.value);
   };
-  console.log(searchUser);
-
-  
 
   if (isLoading)
     return <p className="text-black text-3xl text-center">Loading...</p>;
@@ -62,7 +55,6 @@ function Users() {
 
   return (
     <div>
-      
       <div className="flex justify-center container p-5 ml-10">
         <input
           className=" w-full p-4 border-2 mt-20 rounded-lg"
@@ -71,13 +63,13 @@ function Users() {
           onChange={getUser}
         />
       </div>
-      {isLoading ? (
+      {isProfile ? (
         <div>...Loading...</div>
       ) : (
         <div style={hoverStyle} className="grid grid-cols-4 gap-2 p-2 mt-20">
-          {data?.results
+          {data.results.length > 0 ? data?.results
             .filter((val: any) => {
-              if (searchUser === "" ) {
+              if (searchUser === "") {
                 return val;
               } else if (
                 val.name.first.toLowerCase().includes(searchUser.toLowerCase())
@@ -92,22 +84,30 @@ function Users() {
                   .toLowerCase()
                   .includes(searchUser.toLowerCase())
               ) {
-                return val  
-              } 
-              
-              
+                return val;
+              }
             })
-            .map((d: any) => 
-
-            (
-        <div style={hoverStyle} className="text-blue-900 ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300  border-white shadow-slate-500 bg-white hover:opacity-95 rounded-lg container p-5">
+            
+            .map((d: any) => (
+              <div
+                style={hoverStyle}
+                className="text-blue-900 ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300  border-white shadow-slate-500 bg-white hover:opacity-95 rounded-lg container p-5"
+              >
                 <img
                   className="rounded-full w-44 h-44 "
                   src={d.picture.large}
+                  alt="person"
                 />
-                
-                <h2 className="font-bold text-4xl" style={{backgroundColor: d.name.title === 'Ms' ? 'blue' : 'white' }}>{d.name.title}</h2>
-              
+
+                <h2
+                  className="font-bold text-4xl"
+                  style={{
+                    backgroundColor: d.name.title === "Ms" ? "blue" : "white",
+                  }}
+                >
+                  Title: {d.name.title}
+                </h2>
+
                 <h3 className="font-bold text-3xl font-serif">
                   {" "}
                   {d.name.first} {d.name.last}
@@ -117,7 +117,7 @@ function Users() {
                 <p className=" text-md  font-bold ">Contact: {d.email}</p>
                 <p className=" text-md font-bold ">City: {d.location.city}</p>
               </div>
-            ))}
+            )): <div>No Data avaliable</div>}
         </div>
       )}
     </div>
